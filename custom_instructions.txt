@@ -1,0 +1,2 @@
+1. This is a example instruction.
+2. Be a friendly bot.

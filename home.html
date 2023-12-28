@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Define your CSS styles here */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .user-message {
+            background-color: #6e9fd3;
+            color: #fff;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        .chatbot-message {
+            background-color: #c1e7e3;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        .user-message,
+        .chatbot-message {
+            word-wrap: break-word;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Pop-up window styles */
+        .popup-container {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 300px;
+            height: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .popup-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .popup-content {
+            padding: 10px;
+            height: 320px;
+            overflow-y: auto;
+        }
+
+        .popup-input {
+            width: 90%;
+            height: 70%;
+            /* Adjust the height as needed */
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow-y: scroll;
+            /* Enable vertical scrolling */
+            margin: 0 auto;
+        }
+
+        .popup-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .popup-close-button {
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        /* Add this CSS for the disabled button style */
+        #send-button:disabled {
+            background-color: #ccc !important;
+            /* Change to your desired color for disabled state */
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Chat Window -->
+    <div
+        style="width: 80%; min-width: 300px; min-height: 600px; margin: 0 auto; padding: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); height: 90vh; box-sizing: border-box;">
+        <div style="width: 80%; height: 50px;">
+            <button id="open-popup-button"
+                style="display: inline-block; background-color: #007bff; color: #fff; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; margin-left: 10px;">Open
+                Custom Instructions</button>
+            <button id="set-instruction-button"
+                style="display: inline-block; background-color: #007bff; color: #fff; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; margin-left: 10px;">Read
+                from custom_instructions.txt</button>
+        </div>
+        <!-- Chat Messages -->
+        <div id="chat-messages"
+            style="height: 75%; min-height: 20% ;overflow-y: scroll; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+            <!-- Messages will be displayed here -->
+        </div>
+
+        <!-- User Input -->
+        <div style="display: flex; justify-content: space-between; flex-direction: column; box-sizing: border-box;">
+            <textarea id="user-message"
+                style="flex-grow: 1; padding: 5px; border: 1px solid #ccc; border-radius: 5px; outline: none; resize: none;"
+                placeholder="Type your message..."></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <text style="order: 0; margin-left: 5px;">Beta v0.1 (Stream feature disabled, it may takes some time for
+                    large content generation.)</text>
+                <div style="display: flex; justify-content: flex-end; margin-top: 10px; align-items: center;">
+                    <button id="send-button"
+                        style="background-color: #007bff; color: #fff; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; margin-left: 10px;">Send</button>
+                    <button id="clear-button"
+                        style="background-color: #ff5722; color: #fff; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; margin-left: 10px;">New</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Custom Instructions -->
+    <div id="custom-instructions-popup" class="popup-container">
+        <div class="popup-header">
+            Custom Instructions
+            <button id="popup-close-button" class="popup-close-button" style="margin-left: 20px;">Close</button>
+        </div>
+        <div class="popup-content">
+            <textarea id="custom-instruction-input" class="popup-input" placeholder="Enter custom instruction..."
+                style="margin-left: 10px;"></textarea>
+            <button id="custom-instruction-button" class="popup-button"
+                style="margin-top: 10px; margin-left: 10px;">Submit</button>
+        </div>
+    </div>
+
+    <!-- Include your chatbot API script here -->
+    <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
+</body>
+
+</html>
